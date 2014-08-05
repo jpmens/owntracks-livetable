@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="icons/favicon.ico">
+    <title>OwnTracks Table</title>
+
+    <link href="style.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="vendor/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="vendor/jquery.js"></script>
+    <script type="text/javascript" charset="utf8" src="vendor/jquery.dataTables.js"></script>
+
+    <script type="text/javascript" src="vendor/mqttws31.js"></script>
+    <script type="text/javascript" src="config.js"></script>
+    <script type="text/javascript" src="mqttfuncs.js"></script>
+
+<script type="text/javascript">
+var tab;
+$(document).ready( function () {
+    var counter = 0;
+    tab = $('#table_id').DataTable({
+    	paging: false,
+	scrollY: 400,
+	searching: false,
+	ordering: false,
+	autoWidth: false,
+	columnDefs: [
+		{
+			"targets" : [0],
+			"visible" : config.topic_visible,
+		},
+		{ className: "car", "targets" : [2] },
+		{ className: "vel", "targets" : [3] },
+		{ className: "alt", "targets" : [4] },
+		{ className: "latlon", "targets" : [5] },
+		{ className: "tstamp", "targets" : [6] },
+		{ className: "weather", "targets" : [7] },
+		{ className: "temp", "targets" : [8] },
+		{ className: "loc", "targets" : [9] }
+	]
+    });
+
+    MQTTconnect();
+});
+</script>
+
+</head>
+<body>
+
+<div>
+<table id="table_id" class="display compact hover" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th align='left' >Topic</th>		<!-- 0 -->
+            <th align='left' >S</th> <!-- status -->	<!-- 1 -->
+            <th align='center' >Vehicle</th>		<!-- 2 -->
+            <th align='right' >Km/h</th>		<!-- 3 -->
+            <th align='right' >Alt</th>			<!-- 4 -->
+            <th align='left' >Lat/Lon</th>		<!-- 5 -->
+            <th align='left' >Time</th>			<!-- 6 -->
+            <th align='right' >Weather</th>		<!-- 7 -->
+            <th align='right' >C</th>			<!-- 8 -->
+            <th align='left' >Location</th>		<!-- 9 -->
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+</div>
+
+</body>
+</html>

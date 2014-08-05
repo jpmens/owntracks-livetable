@@ -1,0 +1,36 @@
+html, body {
+      height:100%;
+      width:100%;
+      padding:0px;
+      margin:0px;
+   } 
+body {
+  padding-top: 50px;
+}
+
+td.status {
+  background:yellow;
+  color:red;
+  }
+
+td.tstamp, td.loc {
+	font-size: 80%;
+}
+td.car {
+	font-size: 80%;
+	font-weight: bold;
+	width: 10px;
+}
+td.latlon {
+	font-family: 'Andale Mono', 'Courier New', monospace;
+	font-size: 80%;
+}
+
+td.vel, td.alt {
+	text-align: right;
+}
+
+td.weather, td.temp {
+	text-align: right;
+	font-size: 80%;
+}
