@@ -46,12 +46,23 @@ $(document).ready( function () {
 	]
     });
 
+    $('a.toggle-vis').on('click', function (e) {
+    	e.preventDefault();
+	// Get column API object
+	var column = tab.column( $(this).attr('data-column') );
+	column.visible( ! column.visible() );
+    });
+
     MQTTconnect();
 });
 </script>
 
 </head>
 <body>
+
+<div>
+Toggle: <a href="#" class="toggle-vis" data-column="0">Topic</a> - <a href="#" class="toggle-vis" data-column="5">LatLon</a>
+</div>
 
 <div>
 <table id="table_id" class="display compact hover" cellspacing="0" width="100%">
