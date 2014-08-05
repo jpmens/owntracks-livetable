@@ -41,6 +41,7 @@ function MQTTconnect()
 			var tstamp = d.tstamp;
 			var weather = d.weather;
 			var temp = d.temp;
+			var compass = d.compass;
 
 			var loc = (d.geo) ? d.geo : "?";
 			var mapslink = '<a href="http://maps.google.com/?q=' + d.lat + ',' + d.lon + '">' + loc + '</a>';
@@ -48,7 +49,7 @@ function MQTTconnect()
 			var index = tab.column(0).data().indexOf(topic);
 			if (index < 0) {
 				var rowNode = tab
-					.row.add([topic, stimg, car, vel, alt, latlon, tstamp, weather, temp, mapslink])
+					.row.add([topic, stimg, car, vel, alt, compass, latlon, tstamp, weather, temp, mapslink])
 					.draw()
 					.node();
 			} else {
@@ -56,11 +57,12 @@ function MQTTconnect()
 				tab.cell(index, 2).data(car).draw();
 				tab.cell(index, 3).data(vel).draw();
 				tab.cell(index, 4).data(alt).draw();
-				tab.cell(index, 5).data(latlon).draw();
-				tab.cell(index, 6).data(tstamp).draw();
-				tab.cell(index, 7).data(weather).draw();
-				tab.cell(index, 8).data(temp).draw();
-				tab.cell(index, 9).data(mapslink).draw();
+				tab.cell(index, 5).data(compass).draw();
+				tab.cell(index, 6).data(latlon).draw();
+				tab.cell(index, 7).data(tstamp).draw();
+				tab.cell(index, 8).data(weather).draw();
+				tab.cell(index, 9).data(temp).draw();
+				tab.cell(index, 10).data(mapslink).draw();
 			}
 
 		} catch (err) {

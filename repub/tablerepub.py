@@ -13,6 +13,7 @@ import gdbm
 from revgeo import ReverseGeo
 from weather import OpenWeatherMAP
 from datetime import datetime
+import urllib2
 
 __author__    = 'Jan-Piet Mens <jpmens()gmail.com>'
 __copyright__ = 'Copyright 2014 Jan-Piet Mens'
@@ -20,7 +21,7 @@ __copyright__ = 'Copyright 2014 Jan-Piet Mens'
 devices = {}
 vehicles = {}
 
-db = gdbm.open("nominatimcache.gdbm", "cs", 0644)
+db = gdbm.open("googlecache.gdbm", "cs", 0644)
 weatherdb = gdbm.open("weathermapcache.gdbm", "cs", 0644)
 
 # 3rd decimal place (0.001) is 111m 
@@ -103,6 +104,36 @@ def weather(lat, lon):
 
 def revgeo(lat, lon):
     ''' Given lat, lon, return reverse geo location, either from cache
+        or from Google '''
+
+    short_lat = round(float(lat), 3)
+    short_lon = round(float(lon), 3)
+    key = "%s,%s" % (short_lat, short_lon)
+
+    if key in db:
+        data = json.loads(db[key])
+        data['count'] = data['count'] + 1
+        location = data['loc']
+        db[key] = json.dumps(dict(count=data['count'], loc=location))   # update cache counter
+    else:
+        url = 'http://maps.googleapis.com/maps/api/geocode/json' + \
+                '?latlng={},{}&sensor=false'.format(lat, lon)
+        data = json.load(urllib2.urlopen(url))
+        # print json.dumps(jsondata)
+        try:
+            location = data['results'][0]['formatted_address']
+        except:
+            print "GOOG REV returns ", data
+            location = 'unknown'
+
+
+        db[key] = json.dumps(dict(count=0, loc=location))
+
+    return location
+
+
+def XXXXXXrevgeo(lat, lon):
+    ''' Given lat, lon, return reverse geo location, either from cache
         or from nominatim '''
 
     short_lat = round(float(lat), 3)
@@ -136,9 +167,14 @@ def repub(mosq, dev, devdata):
 
     devdata['geo'] = revgeo(devdata.get('lat', 0), devdata.get('lon', 0))
 
-    weathertemp = weather(devdata.get('lat', 0), devdata.get('lon', 0))
-    devdata['weather'] = weathertemp.get('weather', 'unknown')
-    devdata['temp'] = weathertemp.get('temp', '?')
+    try:
+        weathertemp = weather(devdata.get('lat', 0), devdata.get('lon', 0))
+        devdata['weather'] = weathertemp.get('weather', 'unknown')
+        devdata['temp'] = weathertemp.get('temp', '?')
+    except:
+        devdata['weather'] = '?'
+        devdata['temp'] = '?'
+
     devdata['car'] = car
 
 
@@ -186,6 +222,13 @@ def on_message(mosq, userdata, msg):
     if not 'tst' in data:
         data['tst'] = int(time.time())
 
+    compass = '-'
+    points = [ 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N' ]
+    if data.get('cog') is not None:
+        cog = int(float(data.get('cog', 0)))
+        idx = int(cog / 45)
+        compass = points[idx]
+
     newdata = {
         'lat' : float(data.get('lat', 0)),
         'lon' : float(data.get('lon', 0)),
@@ -193,6 +236,7 @@ def on_message(mosq, userdata, msg):
         'vel' : int(float(data.get('vel', 0))),
         'alt' : int(float(data.get('alt', 0))),
         'tstamp' : time.strftime('%d/%H:%M:%S', time.localtime(int(data['tst']))),
+        'compass' : compass,
     }
 
     try:

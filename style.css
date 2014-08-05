@@ -8,6 +8,17 @@ body {
   padding-top: 50px;
 }
 
+a {
+    cursor: pointer;
+    color: #3174c7;
+    text-decoration: none
+}
+
+a:hover {
+    text-decoration: underline
+}
+
+
 td.status {
   background:yellow;
   color:red;

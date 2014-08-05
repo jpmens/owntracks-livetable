@@ -38,11 +38,12 @@ $(document).ready( function () {
 		{ className: "car", "targets" : [2] },
 		{ className: "vel", "targets" : [3] },
 		{ className: "alt", "targets" : [4] },
-		{ className: "latlon", "targets" : [5] },
-		{ className: "tstamp", "targets" : [6] },
-		{ className: "weather", "targets" : [7] },
-		{ className: "temp", "targets" : [8] },
-		{ className: "loc", "targets" : [9] }
+		{ className: "cog", "targets" : [5] },
+		{ className: "latlon", "targets" : [6] },
+		{ className: "tstamp", "targets" : [7] },
+		{ className: "weather", "targets" : [8] },
+		{ className: "temp", "targets" : [9] },
+		{ className: "loc", "targets" : [10] }
 	]
     });
 
@@ -61,7 +62,7 @@ $(document).ready( function () {
 <body>
 
 <div>
-Toggle: <a href="#" class="toggle-vis" data-column="0">Topic</a> - <a href="#" class="toggle-vis" data-column="5">LatLon</a>
+Toggle: <a href="#" class="toggle-vis" data-column="0">Topic</a> - <a href="#" class="toggle-vis" data-column="6">LatLon</a>
 </div>
 
 <div>
@@ -73,11 +74,12 @@ Toggle: <a href="#" class="toggle-vis" data-column="0">Topic</a> - <a href="#" c
             <th align='center' >Vehicle</th>		<!-- 2 -->
             <th align='right' >Km/h</th>		<!-- 3 -->
             <th align='right' >Alt</th>			<!-- 4 -->
-            <th align='left' >Lat/Lon</th>		<!-- 5 -->
-            <th align='left' >Time</th>			<!-- 6 -->
-            <th align='right' >Weather</th>		<!-- 7 -->
-            <th align='right' >C</th>			<!-- 8 -->
-            <th align='left' >Location</th>		<!-- 9 -->
+            <th align='left' >CoG</th>			<!-- 5 -->
+            <th align='left' >Lat/Lon</th>		<!-- 6 -->
+            <th align='left' >Time</th>			<!-- 7 -->
+            <th align='right' >Weather</th>		<!-- 8 -->
+            <th align='right' >C</th>			<!-- 9 -->
+            <th align='left' >Location</th>		<!-- 10 -->
         </tr>
     </thead>
     <tbody>
