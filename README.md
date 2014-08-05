@@ -16,3 +16,9 @@ are cached for an hour. This database should be removed periodically.
 topic to which the app should subscribe (correlate this with `tablerepub.py`)
 and whether or not to hide the topic column in the app.
 
+## Why a republisher?
+
+It may well be possible to do all this browser-side in JavaScript, but it was
+much easier for me to collect the necessary data server-side and provide that
+to JS.
+
