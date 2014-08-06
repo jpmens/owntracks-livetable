@@ -85,8 +85,8 @@ function MQTTconnect()
 
 				var row = tab.rows(index, {order:'index'}).nodes().to$();
 				// $(row).addClass('hihi');
-				$(row).animate({ 'backgroundColor': '#f0f8ff' }, 550, function(){
-					$(row).animate({'backgroundColor': 'white'}, 550);
+				$(row).animate({ 'backgroundColor': '#FF9900' }, 650, function(){
+					$(row).animate({'backgroundColor': 'white'}, 650);
 				});
 			}
 
