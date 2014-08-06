@@ -52,6 +52,11 @@ function MQTTconnect()
 					.row.add([topic, stimg, car, vel, alt, compass, latlon, tstamp, weather, temp, mapslink])
 					.draw()
 					.node();
+
+				/* WORKS:
+				rowNode.id = "jp" + car;
+				*/
+
 			} else {
 				tab.cell(index, 1).data(stimg).draw();
 				tab.cell(index, 2).data(car).draw();
@@ -63,6 +68,26 @@ function MQTTconnect()
 				tab.cell(index, 8).data(weather).draw();
 				tab.cell(index, 9).data(temp).draw();
 				tab.cell(index, 10).data(mapslink).draw();
+
+				// tab.rows(index).nodes().to$().addClass('hihi');
+
+				/* WORKS
+				var cell = tab.cell(index,10).node();
+				$(cell).addClass('hihi');
+				*/
+
+				/* WORKS
+				var row = tab.row('#jpAP').nodes().to$();
+				console.log('row = ' + row);
+				$(row).attr('class', 'hihi');
+				*/
+
+
+				var row = tab.rows(index, {order:'index'}).nodes().to$();
+				// $(row).addClass('hihi');
+				$(row).animate({ 'backgroundColor': '#f0f8ff' }, 550, function(){
+					$(row).animate({'backgroundColor': 'white'}, 550);
+				});
 			}
 
 		} catch (err) {

@@ -45,3 +45,8 @@ td.weather, td.temp {
 	text-align: right;
 	font-size: 80%;
 }
+
+.hihi {
+	background: yellow;
+	color: red;
+}
