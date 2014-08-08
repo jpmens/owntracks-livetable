@@ -33,8 +33,18 @@ $(document).ready( function () {
 	autoWidth: false,
 	columnDefs: [
 		{
+			"name" : "topic",
+			"title" : "foFOOOO",
 			"targets" : [0],
 			"visible" : config.topic_visible,
+		},
+		{
+			"name": "status",
+			"title":  "StaaaaTUS",
+			"targets": 1,
+			"render" : function(data, type, row) {
+					return data;
+				   }
 		},
 		{ className: "car", "targets" : [2] },
 		{ className: "vel", "targets" : [3] },
@@ -70,8 +80,8 @@ Toggle: <a href="#" class="toggle-vis" data-column="0">Topic</a> - <a href="#" c
 <table id="table_id" class="display compact hover" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th align='left' >topic</th>		<!-- 0 -->
-            <th align='left' >s</th> <!-- status -->	<!-- 1 -->
+            <th id='topic' align='left' >topic</th>		<!-- 0 -->
+            <th id='status' align='left' >s</th> <!-- status -->	<!-- 1 -->
             <th align='center' >vehicle</th>		<!-- 2 -->
             <th align='right' >kmh</th>		<!-- 3 -->
             <th align='right' >alt</th>			<!-- 4 -->

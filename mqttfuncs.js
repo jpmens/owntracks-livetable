@@ -53,6 +53,14 @@ function MQTTconnect()
 					.draw()
 					.node();
 
+
+				/*
+				var rowNode = tab.row.add({
+					"topic": 	topic,
+					"status": 	stimg,
+				}).draw().node();
+				*/
+
 				/* WORKS:
 				rowNode.id = "jp" + car;
 				*/

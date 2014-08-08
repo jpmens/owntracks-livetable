@@ -102,6 +102,22 @@ def weather(lat, lon):
     # print "--------> ", key, weathertemp
     return weathertemp
 
+def NOMIrevgeo(lat, lon):
+    ''' Given lat, lon, return reverse geo location, either from cache
+        or from nominatim '''
+
+    location = 'unknown'
+
+    try:
+        nominatim = ReverseGeo()
+        location = nominatim.reverse(lat, lon)
+        if type(location) == dict and 'error' in location:
+            location = location['error']
+    except:
+        pass
+
+    return location
+
 def revgeo(lat, lon):
     ''' Given lat, lon, return reverse geo location, either from cache
         or from Google '''
@@ -110,11 +126,12 @@ def revgeo(lat, lon):
     short_lon = round(float(lon), 3)
     key = "%s,%s" % (short_lat, short_lon)
 
+    nomiloc = NOMIrevgeo(short_lat, short_lon)
     if key in db:
         data = json.loads(db[key])
         data['count'] = data['count'] + 1
         location = data['loc']
-        db[key] = json.dumps(dict(count=data['count'], loc=location))   # update cache counter
+        db[key] = json.dumps(dict(count=data['count'], loc=location, nomi=nomiloc))   # update cache counter
     else:
         url = 'http://maps.googleapis.com/maps/api/geocode/json' + \
                 '?latlng={},{}&sensor=false'.format(lat, lon)
@@ -127,7 +144,7 @@ def revgeo(lat, lon):
             location = 'unknown'
 
 
-        db[key] = json.dumps(dict(count=0, loc=location))
+        db[key] = json.dumps(dict(count=0, loc=location, nomi=nomiloc))
 
     return location
 

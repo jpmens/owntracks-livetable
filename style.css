@@ -18,11 +18,27 @@ a:hover {
     text-decoration: underline
 }
 
+.toggle-bar {
+	padding: 10px;
+}
+
+.topic, .status, .vehicle, .cog, .latlon, .tstamp, .location {
+	text-align: left;
+}
+
+.kmh, .alt, .weather, .degrees {
+	text-align: right;
+}
 
 td.status {
   background:yellow;
   color:red;
   }
+
+td.topic {
+	text-align: left;
+	background-color: lightblue;
+}
 
 td.tstamp, td.loc {
 	font-size: 80%;
