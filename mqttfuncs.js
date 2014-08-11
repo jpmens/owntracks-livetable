@@ -18,25 +18,13 @@ function MQTTconnect()
 		try {
 			payload = message.payloadString;
 			var d = $.parseJSON(payload);
+
 			console.log(topic + " " + payload);
 
-			var stimg;
-
-			var st = d['status'];
-			if (st == undefined) {
-				stimg = "";
-			} else if (st == -1) {
-				stimg = '<img src="icons/yellowdot.gif" />';
-			} else if (st == 1) {
-				stimg = '<img src="icons/greendot.gif" />';
-			} else {
-				stimg = '<img src="icons/reddot.gif" />';
-			}
-
-
-			var car = (d.car) ? d.car : 'xx';
-			var vel = (d.vel) ? Math.round(d.vel) : "";
-			var alt = (d.alt) ? Math.round(d.alt) + "m" : "";
+			d.status =  (d.status === undefined) ? null : d.status;
+			d.car = (d.car === undefined) ? "" : d.car;
+			d.vel = (d.vel) ? Math.round(d.vel) : "";
+			d.alt = (d.alt) ? Math.round(d.alt) + "m" : "";
 			var latlon = d.lat + "," + d.lon;
 			var tstamp = d.tstamp;
 			var weather = d.weather;
@@ -46,57 +34,20 @@ function MQTTconnect()
 			var loc = (d.geo) ? d.geo : "?";
 			var mapslink = '<a href="http://maps.google.com/?q=' + d.lat + ',' + d.lon + '">' + loc + '</a>';
 
-			var index = tab.column(0).data().indexOf(topic);
-			if (index < 0) {
-				var rowNode = tab
-					.row.add([topic, stimg, car, vel, alt, compass, latlon, tstamp, weather, temp, mapslink])
-					.draw()
-					.node();
-
-
-				/*
-				var rowNode = tab.row.add({
-					"topic": 	topic,
-					"status": 	stimg,
-				}).draw().node();
-				*/
-
-				/* WORKS:
-				rowNode.id = "jp" + car;
-				*/
-
-			} else {
-				tab.cell(index, 1).data(stimg).draw();
-				tab.cell(index, 2).data(car).draw();
-				tab.cell(index, 3).data(vel).draw();
-				tab.cell(index, 4).data(alt).draw();
-				tab.cell(index, 5).data(compass).draw();
-				tab.cell(index, 6).data(latlon).draw();
-				tab.cell(index, 7).data(tstamp).draw();
-				tab.cell(index, 8).data(weather).draw();
-				tab.cell(index, 9).data(temp).draw();
-				tab.cell(index, 10).data(mapslink).draw();
-
-				// tab.rows(index).nodes().to$().addClass('hihi');
-
-				/* WORKS
-				var cell = tab.cell(index,10).node();
-				$(cell).addClass('hihi');
-				*/
-
-				/* WORKS
-				var row = tab.row('#jpAP').nodes().to$();
-				console.log('row = ' + row);
-				$(row).attr('class', 'hihi');
-				*/
-
-
-				var row = tab.rows(index, {order:'index'}).nodes().to$();
-				// $(row).addClass('hihi');
-				$(row).animate({ 'backgroundColor': '#FF9900' }, 650, function(){
-					$(row).animate({'backgroundColor': 'white'}, 650);
-				});
-			}
+		    var o = {
+			topic:		topic,
+			status:		d.status,
+			vehicle:	d.car,
+			kmh:		d.vel,
+			alt:		d.alt,
+			cog:		compass,
+			latlon:		latlon,
+			tstamp:		tstamp,
+			weather:	weather,
+			degrees:	temp,
+			location:	mapslink,
+		    };
+		    upsert(o);
 
 		} catch (err) {
 			console.log("JSON parse error " + err);
@@ -109,7 +60,11 @@ function MQTTconnect()
 		useSSL: config.usetls,
 		onSuccess: function () {
 			console.log("Host: " + config.websockethost + ", Port:" +  config.websocketport);
-			mqtt.subscribe(config.subscribe, {qos: 0});
+			for (n in config.subscribelist) {
+				topic = config.subscribelist[n];
+				console.log("subscribe to " + topic);
+				mqtt.subscribe(topic, {qos: 0});
+			}
 		},
 		onFailure: function (message) {
 			console.log(message.errorMessage);

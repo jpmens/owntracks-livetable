@@ -23,79 +23,176 @@
 
 <script type="text/javascript">
 var tab;
+
+/*
+ * Insert data object into table or update existing row. `data' must
+ * have 'topic', as that is the key into column 0 of the datatable.
+ */
+
+function upsert(data) {
+
+    var found = false;
+    var idx;
+
+    tab.rows().indexes().each( function(idx) {
+        var d = tab.row(idx).data();
+        if (d && (d.topic == data.topic)) {
+                found = true;
+                /* idx is index of updated row (0--n) */
+                idx = tab.row(idx).data(data);
+                /* Highlight */
+                var row = tab.rows(idx, {order:'index'}).nodes().to$();
+                $(row).animate({ 'backgroundColor': '#FF9900' }, 650, function(){
+                        $(row).animate({'backgroundColor': 'white'}, 650);
+                });
+            }
+    });
+
+    if (!found) {
+            idx = tab.row.add(data);
+    }
+    tab.draw();
+}
+
 $(document).ready( function () {
     var counter = 0;
-    tab = $('#table_id').DataTable({
-    	paging: false,
-	scrollY: 400,
-	searching: false,
-	ordering: false,
-	autoWidth: false,
-	columnDefs: [
+    tab = $('#livetable').DataTable({
+        paging: false,
+        scrollY: 400,
+        searching: false,
+        ordering: false,
+        autoWidth: false,
+        columnDefs: [
+                {
+                        className: 'topic',
+                        name: 'topic',
+                        title: "Topic",
+                        visible: config.topic_visible,
+                        data: null,
+                        render: 'topic',
+                        "targets" : [0],
+                },
+                {
+        		className: 'status',
+			name: 'status',
+			title: "Status",
+			visible: true,
+			data: null,
+                        "targets" : [1],
+			render : function(data, type, row) {
+				var icons = ['yellow', 'red', 'green' ];
+				if (data.status === null || data.status === undefined) {
+					return "";
+				}
+				data.status += 1;
+
+				var icon = icons[data.status];
+				if (icon === undefined) {
+					return data.status;
+				}
+
+				return '<img src="icons/' + icon + 'dot.gif" />';
+			}
+                },
 		{
-			"name" : "topic",
-			"title" : "foFOOOO",
-			"targets" : [0],
-			"visible" : config.topic_visible,
+			className: 'vehicle',
+			name: 'vehicle',
+			title: "Vehicle",
+			data: null,
+			render: 'vehicle',
+                        "targets" : [2],
 		},
 		{
-			"name": "status",
-			"title":  "StaaaaTUS",
-			"targets": 1,
-			"render" : function(data, type, row) {
-					return data;
-				   }
+			className: 'kmh',
+			name: 'kmh',
+			title: "kmh",
+			data: null,
+			render: 'kmh',
+                        "targets" : [3],
 		},
-		{ className: "car", "targets" : [2] },
-		{ className: "vel", "targets" : [3] },
-		{ className: "alt", "targets" : [4] },
-		{ className: "cog", "targets" : [5] },
-		{ className: "latlon", "targets" : [6] },
-		{ className: "tstamp", "targets" : [7] },
-		{ className: "weather", "targets" : [8] },
-		{ className: "temp", "targets" : [9] },
-		{ className: "loc", "targets" : [10] }
-	]
+		{
+			className: 'alt',
+			name: 'alt',
+			title: "Alt",
+			data: null,
+			render: 'alt',
+                        "targets" : [4],
+		},
+		{
+			className: 'cog',
+			name: 'cog',
+			title: "CoG",
+			data: null,
+			render: 'cog',
+                        "targets" : [5],
+		},
+		{
+			className: 'latlon',
+			name: 'latlon',
+			title: "Lat/Lon",
+			data: null,
+			render: 'latlon',
+                        "targets" : [6],
+		},
+		{
+			className: 'tstamp',
+			name: 'tstamp',
+			title: "Time",
+			data: null,
+			render: 'tstamp',
+                        "targets" : [7],
+		},
+		{
+			className: 'weather',
+			name: 'weather',
+			title: "Weather",
+			data: null,
+			render: 'weather',
+                        "targets" : [8],
+		},
+		{
+			className: 'degrees',
+			name: 'degrees',
+			title: "C",
+			data: null,
+			render: 'degrees',
+                        "targets" : [9],
+		},
+		{
+			className: 'location',
+			name: 'location',
+			title: "Location",
+			data: null,
+			render: 'location',
+                        "targets" : [10],
+                },
+        ],
+
     });
 
     $('a.toggle-vis').on('click', function (e) {
-    	e.preventDefault();
-	// Get column API object
-	var column = tab.column( $(this).attr('data-column') );
-	column.visible( ! column.visible() );
+        e.preventDefault();
+        // Get column API object
+        var column = tab.column( $(this).attr('data-column') );
+        column.visible( ! column.visible() );
     });
 
     MQTTconnect();
+
 });
 </script>
 
 </head>
 <body>
 
-<div>
-Toggle: <a href="#" class="toggle-vis" data-column="0">Topic</a> - <a href="#" class="toggle-vis" data-column="6">LatLon</a>
+<div class='toggle-bar'>
+Toggle: <a href="#" class="toggle-vis" data-column="0">Topic</a> -
+        <a href="#" class="toggle-vis" data-column="6">LatLon</a>
 </div>
 
 <div>
-<table id="table_id" class="display compact hover" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th id='topic' align='left' >topic</th>		<!-- 0 -->
-            <th id='status' align='left' >s</th> <!-- status -->	<!-- 1 -->
-            <th align='center' >vehicle</th>		<!-- 2 -->
-            <th align='right' >kmh</th>		<!-- 3 -->
-            <th align='right' >alt</th>			<!-- 4 -->
-            <th align='left' >cog</th>			<!-- 5 -->
-            <th align='left' >latlon</th>		<!-- 6 -->
-            <th align='left' >time</th>			<!-- 7 -->
-            <th align='right' >weather</th>		<!-- 8 -->
-            <th align='right' >c</th>			<!-- 9 -->
-            <th align='left' >location</th>		<!-- 10 -->
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+        <table id="livetable" class="display compact hover" cellspacing="0" width="100%">
+        </table>
 </div>
 
 </body>

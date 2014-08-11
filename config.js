@@ -4,6 +4,6 @@ var config = {
 	// websockethost:	'tiggr.ww.mens.de',
 	// websocketport:	9010,
 	usetls:		false,
-	subscribe:	't/+/+',
-	topic_visible: 	true,		// hide/show topic in first col of table
+	subscribelist:  [ 't/+/+' ],
+	topic_visible: 	false,		// hide/show topic in first col of table
 };

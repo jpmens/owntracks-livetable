@@ -31,13 +31,7 @@ a:hover {
 }
 
 td.status {
-  background:yellow;
-  color:red;
-  }
-
-td.topic {
-	text-align: left;
-	background-color: lightblue;
+	// float: right;
 }
 
 td.tstamp, td.loc {
