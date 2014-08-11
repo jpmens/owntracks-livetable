@@ -22,6 +22,10 @@ a:hover {
 	padding: 10px;
 }
 
+th {
+	font-size: 80%;
+}
+
 .topic, .status, .vehicle, .cog, .latlon, .tstamp, .batt, .location {
 	text-align: left;
 }
@@ -30,15 +34,11 @@ a:hover {
 	text-align: right;
 }
 
-td.batt {
-	font-size: 80%;
-}
-
 td.status {
 	// float: right;
 }
 
-td.tstamp, td.loc {
+td.alt, td.tstamp, td.degrees, td.batt, td.location {
 	font-size: 80%;
 }
 td.car {
