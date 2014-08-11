@@ -254,6 +254,7 @@ def on_message(mosq, userdata, msg):
         'alt' : int(float(data.get('alt', 0))),
         'tstamp' : time.strftime('%d/%H:%M:%S', time.localtime(int(data['tst']))),
         'compass' : compass,
+        'batt'    : data.get('batt', '?'),
     }
 
     try:

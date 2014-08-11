@@ -45,6 +45,7 @@ function MQTTconnect()
 			tstamp:		tstamp,
 			weather:	weather,
 			degrees:	temp,
+			batt:		d.batt,
 			location:	mapslink,
 		    };
 		    upsert(o);
