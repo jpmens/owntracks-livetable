@@ -23,7 +23,6 @@ a:hover {
 }
 
 th {
-	font-size: 80%;
 }
 
 .topic, .status, .vehicle, .cog, .latlon, .tstamp, .batt, .location {
@@ -39,21 +38,14 @@ td.status {
 }
 
 td.location {
-	font-size: 80%;
 }
 
-td.alt, td.tstamp, td.degrees, td.batt {
+td.alt, td.tstamp, td.degrees, td.batt, td.latlon {
 	font-family: 'Andale Mono', 'Courier New', monospace;
-	font-size: 70%;
 }
 td.car {
-	font-size: 80%;
 	font-weight: bold;
 	width: 10px;
-}
-td.latlon {
-	font-family: 'Andale Mono', 'Courier New', monospace;
-	font-size: 80%;
 }
 
 td.vel, td.alt {
@@ -62,7 +54,6 @@ td.vel, td.alt {
 
 td.weather, td.temp {
 	text-align: right;
-	font-size: 80%;
 }
 
 .hihi {
