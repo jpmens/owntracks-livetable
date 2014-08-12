@@ -10,6 +10,8 @@ function MQTTconnect()
 	mqtt.onConnectionLost = function (responseObject) {
 		setTimeout(MQTTconnect, reconnectTimeout);
 		console.log(responseObject.errorMessage);
+		$('#mqttstatus').html("Connection lost");
+		$('#mqttstatus-details').html(responseObject.errorMessage);
 	};
 
 	mqtt.onMessageArrived = function (message) {
@@ -61,6 +63,8 @@ function MQTTconnect()
 		useSSL: config.usetls,
 		onSuccess: function () {
 			console.log("Host: " + config.websockethost + ", Port:" +  config.websocketport);
+			$('#mqttstatus').html("Connected");
+			$('#mqttstatus-details').html("Host: " + config.websockethost + ", Port:" +  config.websocketport);
 			for (n in config.subscribelist) {
 				topic = config.subscribelist[n];
 				console.log("subscribe to " + topic);
@@ -69,6 +73,8 @@ function MQTTconnect()
 		},
 		onFailure: function (message) {
 			console.log(message.errorMessage);
+			$('#mqttstatus').html("Connection failed");
+			$('#mqttstatus-details').html(message.errorMessage);
 			setTimeout(MQTTconnect, reconnectTimeout);
 		}
 	};
