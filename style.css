@@ -5,7 +5,7 @@ html, body {
       margin:0px;
    } 
 body {
-  padding-top: 50px;
+	padding-top: 50px;
 }
 
 a {
@@ -38,8 +38,13 @@ td.status {
 	// float: right;
 }
 
-td.alt, td.tstamp, td.degrees, td.batt, td.location {
+td.location {
 	font-size: 80%;
+}
+
+td.alt, td.tstamp, td.degrees, td.batt {
+	font-family: 'Andale Mono', 'Courier New', monospace;
+	font-size: 70%;
 }
 td.car {
 	font-size: 80%;
