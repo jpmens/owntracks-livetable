@@ -8,16 +8,20 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="icons/favicon.ico">
-    <title>OwnTracks Table</title>
+    <title>OwnTracks LiveTable</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap.min.css" rel="stylesheet">
+
     <link href="style.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="vendor/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="vendor/dataTables.bootstrap.css">
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/jquery.dataTables.css"> -->
     <script type="text/javascript" charset="utf8" src="vendor/jquery.js"></script>
     <script type="text/javascript" charset="utf8" src="vendor/jquery-ui.min.js"></script>
     <script type="text/javascript" charset="utf8" src="vendor/jquery.dataTables.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="vendor/dataTables.bootstrap.js"></script>
 
     <script type="text/javascript" src="vendor/mqttws31.js"></script>
     <script type="text/javascript" src="config.js"></script>
@@ -208,20 +212,14 @@ $(document).ready( function () {
         </div>
         
         <div class="collapse navbar-collapse">
-          <!--<ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>-->
           <ul class="nav navbar-nav navbar-right">
-							<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="mqttstatus">Not connected</span> <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-									<li><a href="#" id="mqttstatus-details">No connection made yet.</a></li>
-							</ul>
-							</li>
-					  </ul>
+		<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="mqttstatus">Not connected</span> <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+			  <li><a href="#" id="mqttstatus-details">No connection made yet.</a></li>
+			</ul>
+		</li>
+	 </ul>
         </div><!--/.nav-collapse -->
-
         
       </div>
     </div>
@@ -233,7 +231,8 @@ Toggle: <a href="#" class="toggle-vis" data-column="0">Topic</a> -
 </div>
 
 <div>
-        <table id="livetable" class="display compact hover" cellspacing="0" width="100%">
+        <!-- <table id="livetable" class="display compact hover" cellspacing="0" width="100%"> -->
+        <table id="livetable" class="table table-striped" cellspacing="0" width="100%">
         </table>
 </div>
 
