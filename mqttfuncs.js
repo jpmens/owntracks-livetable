@@ -24,7 +24,6 @@ function MQTTconnect()
 			console.log(topic + " " + payload);
 
 			d.status =  (d.status === undefined) ? null : d.status;
-			d.car = (d.car === undefined) ? "" : d.car;
 			d.vel = (d.vel) ? Math.round(d.vel) : "";
 			d.alt = (d.alt) ? Math.round(d.alt) + "m" : "";
 			var latlon = d.lat + "," + d.lon;
@@ -32,6 +31,7 @@ function MQTTconnect()
 			var weather = d.weather;
 			var temp = d.temp;
 			var compass = d.compass;
+			var tid = d.tid ? d.tid : topic.slice(-2);
 
 			var loc = (d.geo) ? d.geo : "?";
 			var mapslink = '<a href="http://maps.google.com/?q=' + d.lat + ',' + d.lon + '">' + loc + '</a>';
@@ -39,7 +39,7 @@ function MQTTconnect()
 		    var o = {
 			topic:		topic,
 			status:		d.status,
-			vehicle:	d.car,
+			vehicle:	tid,
 			kmh:		d.vel,
 			alt:		d.alt,
 			cog:		compass,
@@ -49,6 +49,7 @@ function MQTTconnect()
 			degrees:	temp,
 			batt:		d.batt,
 			location:	mapslink,
+			tid:		tid,
 		    };
 		    upsert(o);
 

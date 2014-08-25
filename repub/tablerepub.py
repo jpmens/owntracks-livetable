@@ -246,6 +246,10 @@ def on_message(mosq, userdata, msg):
         idx = int(cog / 45)
         compass = points[idx]
 
+    tid = data.get('tid', None)
+    if tid is None:
+        tid = topic[-2:]
+
     newdata = {
         'lat' : float(data.get('lat', 0)),
         'lon' : float(data.get('lon', 0)),
@@ -255,6 +259,7 @@ def on_message(mosq, userdata, msg):
         'tstamp' : time.strftime('%d/%H:%M:%S', time.localtime(int(data['tst']))),
         'compass' : compass,
         'batt'    : data.get('batt', '?'),
+        'tid'     : tid,
     }
 
     try:

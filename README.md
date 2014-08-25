@@ -1,8 +1,9 @@
 # OwnTracks Livetable
 
 This requires a republisher which can be found in `repub/`. The republisher uses
-`vehicles.json` to convert an MQTT topic name to a "car name" which is shown
-in the _vehicle_ column.
+<del>`vehicles.json` to convert an MQTT topic name to a</del> `tid` for a "car name" which is shown
+in the _vehicle_ column. If `tid` isn't available, the last two characters of the
+topic are used.
 
 Reverse geocoding is done via Nominatim. In order to lower the load on Nominatim,
 we lower the precision of the lat/lon coordinates to three digits (approximately
